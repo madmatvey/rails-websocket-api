@@ -1,18 +1,23 @@
 /* eslint no-console: 0 */
+import Vue from 'vue'
 import TurbolinksAdapter from 'vue-turbolinks'
-import Vue from 'vue/dist/vue.esm'
+import ActionCableVue from 'actioncable-vue'
 import App from '../app.vue'
+import store from '../store'
 
 Vue.use(TurbolinksAdapter)
+Vue.use(ActionCableVue, {
+  debug: true,
+  debugLevel: 'all',
+  connectionUrl: 'ws://localhost:3000/api/websocket', // process.env.WEBSOCKET_HOST,
+  connectImmediately: true,
+  store
+});
 
 document.addEventListener('turbolinks:load', () => {
   const app = new Vue({
-    el: '#hello',
-    data: () => {
-      return {
-        message: "Can you say hello?"
-      }
-    },
-    components: { App }
-  })
+    component: App,
+    store,
+    render: h => h(App)
+  }).$mount('#hello')
 })

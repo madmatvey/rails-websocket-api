@@ -1,16 +1,38 @@
 <template>
   <div id="app">
     <p>{{ message }}</p>
+    <p>visitorId: {{ visitorId }}</p>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  data: function () {
-    return {
-      message: "Can you say hello?"
+  channels: {
+    AppChannel: {
+      connected() {},
+      rejected() {},
+      received(data) {
+        console.log("RECEIVED: ", data)
+        this.$store.dispatch('handle_ws_message', data)
+      },
+      disconnected() {}
+    },
+  },
+  computed: {
+    ...mapGetters(['visitorId', 'message'])
+  },
+  methods: {
+    unsubscribe() {
+      this.$cable.unsubscribe({
+        channel: 'AppChannel',
+        room: 'public',
+        visitor_id: this.visitorId});
     }
-  }
+  },
+  mounted() {
+    this.$store.dispatch('authenticate')
+  },
 }
 </script>
 

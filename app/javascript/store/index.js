@@ -22,6 +22,9 @@ export default new Vuex.Store({
     },
     update_visitors_count (state, visitors_count) {
       state.message = `Hello! You are one of ${visitors_count} visitors`
+    },
+    update_message (state, message) {
+      state.message = message
     }
   },
   actions: {

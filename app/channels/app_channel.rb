@@ -2,8 +2,10 @@ class AppChannel < ApplicationCable::Channel
   def subscribed
     Rails.logger.info "subscribed params: #{params}"
     current_visitor.update(online: true)
+    stream_from "app_stream_#{params[:visitor_id]}"
     stream_from "global_stream"
     say_visitors_count
+    say_internal_id
   end
 
   def received
@@ -29,5 +31,10 @@ class AppChannel < ApplicationCable::Channel
   def say_visitors_count
     visitors_count = Visitor.where(online: true).size
     ActionCable.server.broadcast "global_stream", { method: :update_visitors_count, content: visitors_count }
+  end
+
+  def say_internal_id
+    ActionCable.server.broadcast "app_stream_#{params[:visitor_id]}", method: :update_message,
+                                                                      content: "Hello, your id is #{current_visitor.id}" 
   end
 end

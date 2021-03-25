@@ -35,8 +35,11 @@ services:
       - web_app
     volumes:
       - ./docker/nginx.conf:/etc/nginx/conf.d/my_app.conf:ro
+      - ./docker/production/fullchain.pem:/etc/nginx/fullchain.pem
+      - ./docker/production/privkey.pem:/etc/nginx/privkey.pem
     ports:
       - "80:80"
+      - "443:443"
 
 volumes:
   gem_cache:

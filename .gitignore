@@ -27,6 +27,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/docker/production/privkey.pem
 
 /public/packs
 /public/packs-test

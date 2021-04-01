@@ -9,7 +9,7 @@ Vue.use(TurbolinksAdapter)
 Vue.use(ActionCableVue, {
   debug: true,
   debugLevel: 'all',
-  connectionUrl: 'ws://localhost:3000/api/websocket', // process.env.WEBSOCKET_HOST,
+  connectionUrl: 'wss://foot.vote/api/websocket', // process.env.WEBSOCKET_HOST,
   connectImmediately: true,
   store
 });

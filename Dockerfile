@@ -12,6 +12,7 @@ WORKDIR $APP_HOME
 
 RUN gem install bundler:$BUNDLER_VERSION
 ADD Gemfile* $APP_HOME/
+RUN bundle update mimemagic
 RUN bundle install
 
 ADD . $APP_HOME

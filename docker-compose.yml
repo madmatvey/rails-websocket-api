@@ -9,7 +9,7 @@ services:
       - database
       - redis
     ports:
-      - "3000"
+      - "3000:3000"
     volumes:
       - .:/app
       - gem_cache:/usr/local/bundle/gems
@@ -28,13 +28,14 @@ services:
       - "6379:6379"
 
   nginx:
-    image: nginx
+    image: nginx:latest
     links:
       - web_app
     volumes_from:
       - web_app
     volumes:
-      - ./docker/nginx.conf:/etc/nginx/conf.d/my_app.conf:ro
+      - ./docker/production/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/production/footvote.conf:/etc/nginx/sites-enabled/footvote
       - ./docker/production/fullchain.pem:/etc/nginx/fullchain.pem
       - ./docker/production/privkey.pem:/etc/nginx/privkey.pem
     ports:

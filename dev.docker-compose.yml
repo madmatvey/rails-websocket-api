@@ -5,25 +5,28 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: web:latest
     depends_on:
       - database
       - redis
     ports:
-      - "3000:3000"
+      - "3000"
     volumes:
       - .:/web
       - gems_cache:/usr/local/bundle/gems
       - node_modules:/web/node_modules
-    env_file: .env
+    env_file:
+      - .env
     environment:
      - NODE_ENV=production
-     - WEBSOCKET_HOST=wss://foot.vote/api/websocket
+     - WEBSOCKET_HOST=wss://footvote.xyz/api/websocket
 
   database:
     image: postgres:12.1
     volumes:
       - db_data:/var/lib/postgresql/data
-    env_file: .env
+    env_file:
+      - .env
 
   redis:
     image: redis:latest
@@ -31,16 +34,14 @@ services:
       - "6379:6379"
 
   nginx:
-    image: nginx:latest
+    image: nginx
     links:
       - web
     volumes_from:
       - web
     volumes:
-      - ./docker/production/nginx.conf:/etc/nginx/nginx.conf
-      - ./docker/production/footvote.conf:/etc/nginx/sites-enabled/footvote
-      - ./docker/production/fullchain.pem:/etc/nginx/fullchain.pem
-      - ./docker/production/privkey.pem:/etc/nginx/privkey.pem
+      - ./docker/development/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/development/footvote.conf:/etc/nginx/sites-enabled/footvote
     ports:
       - "80:80"
       - "443:443"

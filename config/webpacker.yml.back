@@ -7,6 +7,7 @@ default: &default
   public_output_path: packs
   cache_path: tmp/cache/webpacker
   webpack_compile_output: true
+  additional_paths: ['app/assets']
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
@@ -33,6 +34,7 @@ default: &default
     - .woff2
 
   extensions:
+    - .vue
     - .mjs
     - .js
     - .sass

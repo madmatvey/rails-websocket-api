@@ -12,13 +12,14 @@ ENV APP_HOME /web
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
+ENV WEBSOCKET_HOST=$WEBSOCKET_HOST
+
 RUN gem install bundler:$BUNDLER_VERSION
-ADD Gemfile* $APP_HOME/
+COPY Gemfile* $APP_HOME/
 RUN bundle install --without development test
 
-ADD . $APP_HOME
-RUN yarn install --check-files
-
-RUN RAILS_ENV=production bundle exec rake assets:precompile
-
+COPY . $APP_HOME
 CMD ["rails","server","-b","0.0.0.0"]
+
+RUN yarn install --check-files
+RUN RAILS_ENV=production bundle exec rake assets:precompile

@@ -9,12 +9,10 @@ Vue.use(TurbolinksAdapter)
 Vue.use(ActionCableVue, {
   debug: true,
   debugLevel: 'all',
-  connectionUrl: process.env.WEBSOCKET_HOST, // 'wss://footvote.xyz/api/websocket',
+  connectionUrl: process.env.WEBSOCKET_HOST,
   connectImmediately: true,
   store
 });
-
-// console.log("process.env.WEBSOCKET_HOST",process.env.WEBSOCKET_HOST)
 
 document.addEventListener('turbolinks:load', () => {
   const app = new Vue({

@@ -14,16 +14,15 @@ services:
       - .:/web
       - gems_cache:/usr/local/bundle/gems
       - node_modules:/web/node_modules
-    env_file: .env
-    environment:
-     - NODE_ENV=production
-     - WEBSOCKET_HOST=wss://foot.vote/api/websocket
+    env_file:
+      - .env
 
   database:
     image: postgres:12.1
     volumes:
       - db_data:/var/lib/postgresql/data
-    env_file: .env
+    env_file:
+      - .env
 
   redis:
     image: redis:latest

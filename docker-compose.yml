@@ -28,6 +28,11 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
 
   nginx:
     image: nginx:latest
@@ -43,6 +48,19 @@ services:
     ports:
       - "80:80"
       - "443:443"
+
+  anycable:
+    image: anycable/anycable-go:1.0
+    command: bundle exec anycable
+    env_file:
+      - .env
+    volumes_from:
+      - web
+    ports:
+      - '50051'
+    depends_on:
+      redis:
+        condition: service_healthy
 
 volumes:
   gems_cache:

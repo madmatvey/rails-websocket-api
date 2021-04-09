@@ -16,7 +16,7 @@ ENV WEBSOCKET_HOST=$WEBSOCKET_HOST
 
 RUN gem install bundler:$BUNDLER_VERSION
 COPY Gemfile* $APP_HOME/
-RUN bundle install --without development test
+RUN bundle install
 
 COPY . $APP_HOME
 CMD ["rails","server","-b","0.0.0.0"]
